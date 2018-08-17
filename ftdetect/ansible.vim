@@ -4,10 +4,9 @@
 " Author:          Chase Colman <chase@colman.io>
 " Version:         1.0
 " Latest Revision: 2015-03-23
-" URL:             https://github.com/chase/vim-ansible-yaml
+" URL:             https://github.com/ianfoo/vim-ansible-yaml
 
-autocmd BufNewFile,BufRead *.yml,*.yaml,*/{group,host}_vars/*  call s:SelectAnsible("ansible")
-autocmd BufNewFile,BufRead hosts call s:SelectAnsible("ansible_hosts")
+autocmd BufNewFile,BufRead *.yml,*.yaml  call s:SelectAnsible("ansible")
 
 fun! s:SelectAnsible(fileType)
   " Bail out if 'filetype' is already set to "ansible".
@@ -18,26 +17,9 @@ fun! s:SelectAnsible(fileType)
   let fp = expand("<afile>:p")
   let dir = expand("<afile>:p:h")
 
-  " Check if buffer is file under any directory of a 'roles' directory
-  " or under any *_vars directory
-  if fp =~ '/roles/.*\.y\(a\)\?ml$' || fp =~ '/\(group\|host\)_vars/'
+  " Check if buffer is has .yaml or .yml extension.
+  if fp =~ '/.*\.y\(a\)\?ml$'
     execute "set filetype=" . a:fileType . '.yaml'
     return
   endif
-
-  " Check if subdirectories in buffer's directory match Ansible best practices
-  if v:version < 704
-    let directories=split(glob(fnameescape(dir) . '/{,.}*/', 1), '\n')
-  else
-    let directories=glob(fnameescape(dir) . '/{,.}*/', 1, 1)
-  endif
-
-  call map(directories, 'fnamemodify(v:val, ":h:t")')
-
-  for dir in directories
-    if dir =~ '\v^%(group_vars|host_vars|roles)$'
-      execute "set filetype=" . a:fileType
-      return
-    endif
-  endfor
 endfun

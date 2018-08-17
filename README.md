@@ -1,9 +1,20 @@
 # vim-ansible-yaml
 
-### Maintainer wanted!
-I don't have time to maintain this and haven't used Ansible in quite some time. If anyone would like to come in as a collaborater and maintain it, feel free to open up an issue!
+### My fork of vim-ansible-yaml
 
-*Also, if you feel like this bundle isn't quite what you'd want, check out [ansible-vim](https://github.com/pearofducks/ansible-vim) by @pearofducks!*
+I've never used Ansible. I just wanted something to fix Vim's default handling
+of of YAML files, with its unpredictable indentation and block shift left/right
+that ends up moving blocks into the wrong column.
+
+This repository is nearly identical to [the
+upstream](https://github.com/chase/vim-ansible-yaml) (thank you for your
+work!), but anything Ansible related in file type detection is stripped away:
+it looks only to determine whether the buffer has an extension of `yaml` or
+`yml`.
+
+Any Ansible-specific nuances in the actual editing of the files will still be in
+place; you just don't have to set the file type manually anymore when editing
+non-Ansible YAML.
 
 ---
 
@@ -21,7 +32,7 @@ For details, see the Detection section below.
 ### Using [Vundle](https://github.com/gmarik/vundle)
 
 1. Add the following to your `.vimrc` where other bundles are located:
-       
+
 		Bundle 'chase/vim-ansible-yaml'
 
 2. Run from command line:
